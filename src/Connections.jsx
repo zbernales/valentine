@@ -2,7 +2,7 @@ import "./Connections.css";
 
 export default function Connections() {
   const words = [
-    "APPLE", "ORANGE", "BANANA", "PEAR",
+    "BE", "MY", "VALENTINE", "?",
     "DOG", "CAT", "MOUSE", "HORSE",
     "RED", "BLUE", "GREEN", "YELLOW",
     "CAR", "TRAIN", "PLANE", "BOAT"
