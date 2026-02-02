@@ -35,11 +35,42 @@
     transform 0.08s ease;
 }
 
+.selectedTile {
+  aspect-ratio: 1.25 / 1;        
+  background-color: rgb(155, 155, 155);    
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  color: white;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition: 
+    background-color 0.12s ease,
+    transform 0.08s ease;
+}
+
 .tile:hover {
   background-color: #e5e5db;
   transform: translateY(-1px);
 }
 
+.selectedTile:hover {
+  background-color: rgb(165, 165, 165);
+  transform: translateY(-1px);
+}
+
 .tile:active {
+  transform: scale(0.97);
+}
+
+.selectedTtile:active {
   transform: scale(0.97);
 }
