@@ -1,9 +1,11 @@
 .connections-page {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
+  gap: 16px;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
@@ -74,3 +76,23 @@
 .selectedTtile:active {
   transform: scale(0.97);
 }
+
+.lives {
+  display: flex;
+  gap: 8px;
+}
+
+.life {
+  width: 12px;
+  height: 12px;
+  background: rgb(155, 155, 155);
+  border-radius: 50%;
+}
+
+.lostLiife {
+  width: 12px;
+  height: 12px;
+  background: rgb(250, 248, 248);
+  border-radius: 50%;
+}
+
