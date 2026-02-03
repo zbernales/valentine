@@ -4,21 +4,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
   gap: 16px;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+.title {
+  font-size: 3rem;          
+  font-weight: bold;
+  margin-bottom: 100px;      
+  text-align: center;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  width: min(90vw, 600px);
+  width: min(90vw, 650px);
 }
 
 .tile {
-  aspect-ratio: 1.25 / 1;        
-  background-color: #efefe6;     
+  aspect-ratio: 1.4 / 1;        
+  background-color: #e7e7e0;     
   border-radius: 10px;
 
   display: flex;
@@ -38,7 +43,7 @@
 }
 
 .selectedTile {
-  aspect-ratio: 1.25 / 1;        
+  aspect-ratio: 1.4 / 1;        
   background-color: rgb(155, 155, 155);    
   border-radius: 10px;
 
@@ -60,7 +65,7 @@
 }
 
 .tile:hover {
-  background-color: #e5e5db;
+  background-color: #dadad0;
   transform: translateY(-1px);
 }
 
@@ -79,20 +84,34 @@
 
 .lives {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  margin-top: 6px;
 }
 
 .life {
-  width: 12px;
-  height: 12px;
-  background: rgb(155, 155, 155);
+  position: relative;
+  width: 14px;
+  height: 14px;
+  transform: rotate(-45deg);
+  background-color: #ff4d6d;   
+}
+
+.life::before,
+.life::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: #ff4d6d;
   border-radius: 50%;
 }
 
-.lostLiife {
-  width: 12px;
-  height: 12px;
-  background: rgb(250, 248, 248);
-  border-radius: 50%;
+.life::before {
+  top: -7px;
+  left: 0;
 }
 
+.life::after {
+  left: 7px;
+  top: 0;
+}

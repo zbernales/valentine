@@ -2,12 +2,18 @@ import "./Connections.css";
 import { useState } from 'react'
 
 export default function Connections() {
+  const [tiles, setTiles] = useState([
+    "WILL YOU", "BE", "MY", "VALENTINE",
+    "AURAMAXXING", "JORDAN", "ROSE", "7/11",
+    "WHY", "OH...", "RED ROBIN", "LOVE",
+    "THEIR", "ITS", "ARE", "OUR"
+  ]);
   const [selectedTiles, setSelectedTiles] = useState([])
   const [pastGuesses, setPastGuesses] = useState([])
   const [lives, setLives] = useState(4);
   const words = [
     "WILL YOU", "BE", "MY", "VALENTINE",
-    "MAXIMUM", "JORDAN", "ROSE", "7/11",
+    "AURAMAXXING", "JORDAN", "ROSE", "7/11",
     "WHY", "OH...", "RED ROBIN", "LOVE",
     "THEIR", "ITS", "ARE", "OUR"
   ];
@@ -23,6 +29,7 @@ export default function Connections() {
     "CONTAINS 'STRANGER THINGS' CHARACTERS",
     "LEGENDARY CHICAGO BULLS (AND DENZEL VALENTINE)"
   ]
+
   const handleSelect = (idx) => {
     if (!selectedTiles.includes(idx) && selectedTiles.length !== 4) {
       setSelectedTiles([...selectedTiles, idx]);
@@ -30,23 +37,41 @@ export default function Connections() {
       setSelectedTiles(selectedTiles.filter(i => i !== idx));
     }
   }
+
   const handleSubmit = () => {
-    if (answers.some(answerSet => selectedTiles.every(idx => answerSet.has(idx)))) {
+    let isCorrect = false;
+    let isOneAway = false;
+    answers.forEach(answerSet => {
+      const matches = selectedTiles.filter(idx => 
+        answerSet.has(idx)
+      ).length;
+      if (matches === 4) isCorrect = true;
+      if (matches === 3) isOneAway = true;
+    })
+    if (isCorrect) {
       alert('Correct');
+      setSelectedTiles([]);
+      //setTiles(tiles.filter((_, idx) => !selectedTiles.includes(idx)));
     } 
     else if (pastGuesses.some(guessesSet => selectedTiles.every(idx => guessesSet.has(idx)))) {
-      alert('Already Guessed')
+      alert('Already Guessed');
     }
     else {
-      alert('Incorrect');
+      if (isOneAway) {
+        alert('One Away');
+      } else {
+        alert('Incorrect')
+      }
       setLives(lives - 1);
     }
     setPastGuesses([...pastGuesses, new Set(selectedTiles)]);
   }
+
   return (
     <div className="connections-page">
+      <h1 className="title">Connections</h1>
       <div className="grid">
-        {words.map((word, idx) => (
+        {tiles.map((word, idx) => (
           <div
             key={idx}
             className={selectedTiles.includes(idx) ? "selectedTile" : "tile"}
