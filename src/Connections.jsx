@@ -1,5 +1,7 @@
 import "./Connections.css";
 import { useState } from 'react'
+import HeartConfetti from "./HeartConfetti";
+import Toast from "./Toast.jsx";
 
 export default function Connections() {
   const [tiles, setTiles] = useState([
@@ -8,74 +10,107 @@ export default function Connections() {
     "WHY", "OH...", "RED ROBIN", "LOVE",
     "THEIR", "ITS", "ARE", "OUR"
   ]);
-  const [selectedTiles, setSelectedTiles] = useState([])
-  const [pastGuesses, setPastGuesses] = useState([])
-  const [lives, setLives] = useState(4);
-  const words = [
-    "WILL YOU", "BE", "MY", "VALENTINE",
-    "AURAMAXXING", "JORDAN", "ROSE", "7/11",
-    "WHY", "OH...", "RED ROBIN", "LOVE",
-    "THEIR", "ITS", "ARE", "OUR"
-  ];
+
   const answers = [
-    new Set([2, 12, 13, 15]), 
-    new Set([1, 8, 9, 14]), 
-    new Set([3, 5, 6, 11]), 
-    new Set([0, 4, 7, 10])
+    new Set(["MY", "THEIR", "ITS", "OUR"]), 
+    new Set(["BE", "WHY", "OH...", "ARE"]), 
+    new Set(["VALENTINE", "JORDAN", "ROSE", "LOVE"]), 
+    new Set(["WILL YOU", "AURAMAXXING", "7/11", "RED ROBIN"])
   ];
+
   const categories = [
     "POSSESSIVE ADJECTIVES",
     "LETTER HOMOPHONES",
-    "CONTAINS 'STRANGER THINGS' CHARACTERS",
-    "LEGENDARY CHICAGO BULLS (AND DENZEL VALENTINE)"
-  ]
+    "LEGENDARY CHICAGO BULLS (AND DENZEL VALENTINE)",
+    "CONTAINS 'STRANGER THINGS' CHARACTERS"
+  ];
 
-  const handleSelect = (idx) => {
-    if (!selectedTiles.includes(idx) && selectedTiles.length !== 4) {
-      setSelectedTiles([...selectedTiles, idx]);
+  const difficultyColors = [
+    "#fabaca", 
+    "#cc919f", 
+    "#ff4d6d", 
+    "#c20f42"  
+  ];
+  
+  const [selectedTiles, setSelectedTiles] = useState([])
+  const [pastGuesses, setPastGuesses] = useState([])
+  const [lives, setLives] = useState(4);
+  const [solvedCategories, setSolvedCategories] = useState([]);
+  const [confettiTrigger, setConfettiTrigger] = useState(0);
+  const [toast, setToast] = useState("");
+
+  const handleSelect = (word) => {
+    if (!selectedTiles.includes(word) && selectedTiles.length !== 4) {
+      setSelectedTiles([...selectedTiles, word]);
     } else {
-      setSelectedTiles(selectedTiles.filter(i => i !== idx));
+      setSelectedTiles(selectedTiles.filter(w => w !== word));
     }
   }
 
   const handleSubmit = () => {
     let isCorrect = false;
     let isOneAway = false;
-    answers.forEach(answerSet => {
-      const matches = selectedTiles.filter(idx => 
-        answerSet.has(idx)
+    let correctIndex = null;
+    answers.forEach((answerSet, idx) => {
+      const matches = selectedTiles.filter(word => 
+        answerSet.has(word)
       ).length;
-      if (matches === 4) isCorrect = true;
+      if (matches === 4) {
+        isCorrect = true;
+        correctIndex = idx;
+      }
       if (matches === 3) isOneAway = true;
     })
     if (isCorrect) {
-      alert('Correct');
+      setConfettiTrigger(c => c + 1);
       setSelectedTiles([]);
-      //setTiles(tiles.filter((_, idx) => !selectedTiles.includes(idx)));
+      setSolvedCategories([...solvedCategories, correctIndex]);
+      setTiles(tiles.filter((word) => !selectedTiles.includes(word)));
     } 
-    else if (pastGuesses.some(guessesSet => selectedTiles.every(idx => guessesSet.has(idx)))) {
-      alert('Already Guessed');
+    else if (pastGuesses.some(guessesSet => selectedTiles.every(word => guessesSet.has(word)))) {
+      setToast("Already guessed!");
     }
     else {
       if (isOneAway) {
-        alert('One Away');
+        setToast("Close...");
       } else {
-        alert('Incorrect')
+        setToast("Nope");
       }
       setLives(lives - 1);
     }
     setPastGuesses([...pastGuesses, new Set(selectedTiles)]);
   }
 
+  function SolutionBox({ category, words, color }) {
+    return (
+      <div className="solution-box" style={{ backgroundColor: color }}>
+        <div className="solution-title">{category}</div>
+        <div className="solution-words">
+          {words.map((word, idx) => (
+            <div key={idx} className="solution-word">{word}</div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="connections-page">
       <h1 className="title">Connections</h1>
+        {solvedCategories.map(catIdx => (
+          <SolutionBox
+            key={catIdx}
+            category={categories[catIdx]}
+            words={Array.from(answers[catIdx])}
+            color={difficultyColors[catIdx]}
+          />
+        ))}
       <div className="grid">
         {tiles.map((word, idx) => (
           <div
             key={idx}
-            className={selectedTiles.includes(idx) ? "selectedTile" : "tile"}
-            onClick={() => handleSelect(idx)}
+            className={selectedTiles.includes(word) ? "selectedTile" : "tile"}
+            onClick={() => handleSelect(word)}
           >
             {word}
           </div>
@@ -96,7 +131,8 @@ export default function Connections() {
       >
         Submit
       </button>
-
+      <HeartConfetti trigger={confettiTrigger} />
+      <Toast message={toast} onClose={() => setToast("")} />
     </div>
   );
 }
