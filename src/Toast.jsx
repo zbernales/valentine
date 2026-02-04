@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./Toast.css";
 
-export default function Toast({ message, duration = 2000, onClose }) {
+export default function Toast({ message, duration = 4000, onClose }) {
   useEffect(() => {
     if (!message) return;
     const timer = setTimeout(() => {
