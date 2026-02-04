@@ -86,10 +86,7 @@ export default function Connections() {
       setToast("Already guessed!");
     }
     else {
-      if (isOneAway) {
-        setToast("Close...");
-      } 
-      else if (valentineGuess) {
+      if (valentineGuess) {
         setToast("You really thought it would be that obvious? Good luck... heh");
       }
       else if (lives == 1) {
@@ -104,6 +101,9 @@ export default function Connections() {
       else if (lives <= -2) {
         setToast("Is it even mathematically possible to have this many wrong guesses?");
       }
+      else if (isOneAway) {
+        setToast("Close...");
+      } 
       else {
         setToast("Nope");
       }
