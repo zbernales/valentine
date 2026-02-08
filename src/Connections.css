@@ -1,4 +1,5 @@
 .connections-page {
+  color: white;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,7 +23,7 @@
 }
 
 .tile {
-  color: white;
+  color: red;
   aspect-ratio: 1.4 / 1;        
   background-color: #e7e7e0;     
   border-radius: 10px;
