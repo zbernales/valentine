@@ -98,12 +98,12 @@ export default function Connections() {
       else if (lives == -1) {
         setToast("Here, just takes these. You need em");
       }
-      else if (lives <= -2) {
-        setToast("Is it even mathematically possible to have this many wrong guesses?");
-      }
       else if (isOneAway) {
         setToast("Close...");
       } 
+      else if (lives <= -2) {
+        setToast("Is it even mathematically possible to have this many wrong guesses?");
+      }
       else {
         setToast("Nope");
       }
