@@ -1,5 +1,5 @@
 .connections-page {
-  color: white;
+  color: black;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -9,6 +9,7 @@
   font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 .title {
+  color: black;
   font-size: 3rem;          
   font-weight: bold;
   margin-bottom: 100px;      
